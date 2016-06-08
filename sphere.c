@@ -12,21 +12,9 @@ Subject: Computer Graphics
 
 const double RADIO = 200;
 
-int validation(int u, int v) {
-	if (u >= 3 && v >= 2) return 1;
-	return 0;
-}
-
-void debug(int u, int v, Node* vertexes) {
-	Node* imp = vertexes;
-	printf("Input\nu = %d v = %d\n", u, v);
-	printf("%s \t %8s \t %8s \t %8s\n", "Vertex", "v1", "v2", "v3");
-	int conta = 0;
-	for (; imp; imp = imp->next) {
-		R3Coord ver = *(R3Coord*)imp->data;
-		printf("[%8.2lf, %8.2lf, %8.2lf]\n", ver.x, ver.y, ver.z);
-	}	
-}
+int validation(int u, int v);
+void createVLF(int u, int v, Node * list);
+void debug(int u, int v, Node* vertexes);
 
 int main(int argc, char* argv[]) {
 	if (argc != 3) {
@@ -78,7 +66,29 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	//debug(u, v, vertexes);
+	createVLF(u, v, vertexes);
+	return 0;
+}
 
+int validation(int u, int v) {
+	if (u >= 3 && v >= 2) return 1;
+	return 0;
+}
+
+void createVLF(int u, int v, Node * list) {
+	Node *imp = list;
+	FILE *archivo = fopen("sphere.vlf", "w");
+
+    fprintf(archivo, "Input\nu = %d v = %d\n", u, v);
+	fprintf(archivo, "%s \t %8s \t %8s \t %8s\n", "Vertex", "v1", "v2", "v3");
+	int conta = 0;
+	for (; imp; imp = imp->next) {
+		R3Coord ver = *(R3Coord*)imp->data;
+		fprintf(archivo, "%d \t\t %8.2lf \t %8.2lf \t %8.2lf\n", conta++, ver.x, ver.y, ver.z);
+	}
+}
+
+void debug(int u, int v, Node* vertexes) {
 	Node* imp = vertexes;
 	printf("Input\nu = %d v = %d\n", u, v);
 	printf("%s \t %8s \t %8s \t %8s\n", "Vertex", "v1", "v2", "v3");
@@ -86,6 +96,5 @@ int main(int argc, char* argv[]) {
 	for (; imp; imp = imp->next) {
 		R3Coord ver = *(R3Coord*)imp->data;
 		printf("%d \t %8.2lf \t %8.2lf \t %8.2lf\n", conta++, ver.x, ver.y, ver.z);
-	}
-	return 0;
+	}	
 }

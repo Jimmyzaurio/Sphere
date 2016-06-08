@@ -8,4 +8,4 @@ $(LIBS): $(FUENTE)
 	gcc -c $(FUENTE)
 
 clean:
-	rm $(LIBS) sphere
+	rm $(LIBS) sphere sphere.vlf
